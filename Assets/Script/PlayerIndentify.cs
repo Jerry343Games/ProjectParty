@@ -41,6 +41,10 @@ public class PlayerIndentify : MonoBehaviour
 
     public GameObject[] interactor;
 
+    //计分功能
+    public GameObject[] scoreNumText0;
+    public static int[] scoreNum;
+
     // Start is called before the first frame update
     void Start()
     {
