@@ -39,13 +39,15 @@ public class PlayerIndentify : MonoBehaviour
     public GameObject rope12;
     bool hasSetAll;
 
+    public GameObject[] interactor;
+
     // Start is called before the first frame update
     void Start()
     {
         isStartGame=false;
         staticTotalNum = totalNum;
         pNum = 0;
-     }
+    }
 
     // Update is called once per frame
     void Update()
@@ -56,6 +58,7 @@ public class PlayerIndentify : MonoBehaviour
         {
             SetRopes();
         }
+        SetGrassInteracyor();
         Debug.Log(link0_1);
     }
 
@@ -255,10 +258,25 @@ public class PlayerIndentify : MonoBehaviour
 
             hasSetAll = true;
         }
-
-        
+  
     }
     
+    void SetGrassInteracyor()
+    {
+
+        if (isStartGame && totalNum==3)
+        {
+            interactor[0].transform.position = model0.position;
+            interactor[1].transform.position = model1.position;
+            interactor[2].transform.position = model2.position;
+        }
+        if (isStartGame && totalNum == 2)
+        {
+            interactor[0].transform.position = model0.position;
+            interactor[1].transform.position = model1.position;
+        }
+    }
+
     IEnumerator WaitForStart()
     {
         yield return new WaitForSeconds(1f);

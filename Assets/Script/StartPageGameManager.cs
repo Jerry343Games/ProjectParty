@@ -14,7 +14,7 @@ public class StartPageGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void Click2Model()
     {
