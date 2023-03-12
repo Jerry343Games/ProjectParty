@@ -38,9 +38,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _MatCap01Pow: 1
-    - _refract: 0.93
+    - _MatCap01Pow: 1.83
+    - _refract: -0.94
     m_Colors:
     - _DecalColor: {r: 0.070956334, g: 0.070956334, b: 0.070956334, a: 1}
-    - _refacColor: {r: 13.76636, g: 13.76636, b: 13.76636, a: 1}
+    - _refacColor: {r: 6.8831816, g: 6.8831816, b: 6.8831816, a: 1}
   m_BuildTextureStacks: []

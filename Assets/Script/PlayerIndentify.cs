@@ -273,7 +273,15 @@ public class PlayerIndentify : MonoBehaviour
         }
   
     }
-    
+
+    private Vector3 GetBetweenPoint(Vector3 start, Vector3 end, float percent = 0.5f)
+    {
+        Vector3 normal = (end - start).normalized;
+        float distance = Vector3.Distance(start, end);
+        return normal * (distance * percent) + start;
+    }
+
+
     void SetGrassInteracyor()
     {
 

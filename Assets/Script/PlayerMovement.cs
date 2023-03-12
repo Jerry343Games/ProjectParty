@@ -210,14 +210,17 @@ public class PlayerMovement : MonoBehaviour
                 if ((playerNum == 0 || playerNum == 1))
                 {
                     rope01.SetActive(false);
+                    linked01 = false;
                 }
                 if ((playerNum == 0 || playerNum == 2))
                 {
                     rope02.SetActive(false);
+                    linked02 = false;
                 }
                 if ((playerNum == 1 || playerNum == 2))
                 {
                     rope12.SetActive(false);
+                    linked12 = false;
                 }
                 creatButtonPress = true;
                 ropeCreated = false;

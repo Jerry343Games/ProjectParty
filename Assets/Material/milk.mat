@@ -75,13 +75,13 @@ Material:
     - _RimSmoothness: 0
     - _RimSplitColor: 0
     - _RimThickness: 1
-    - _SmoothnessMultiplier: 1.39
+    - _SmoothnessMultiplier: 1.56
     - _SpecularFaloff: 0
     - _SpecularPosterizeSteps: 15
     - _SpecularShadowMask: 0
     - _StepOffset: -0.5
     - _Strength: 0
-    - _Thicnkess: 0.0001
+    - _Thicnkess: 0.0008
     - _UseAdditionalLightsDiffuse: 1
     - _UseEmission: 0
     - _UseEnvironmentRefletion: 0
