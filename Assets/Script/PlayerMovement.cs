@@ -45,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
     GameObject rope01;
     GameObject rope02;
     GameObject rope12;
+    public static bool linked01;
+    public static bool linked02;
+    public static bool linked12;
 
 
 
@@ -177,14 +180,21 @@ public class PlayerMovement : MonoBehaviour
                 if (PlayerIndentify.link0_1 && (playerNum == 0 || playerNum == 1))
                 {
                     rope01.SetActive(true);
+                    linked01=true;
                 }
-                if (PlayerIndentify.link0_2 && (playerNum == 0 || playerNum == 2))
+                else if (PlayerIndentify.link0_2 && (playerNum == 0 || playerNum == 2))
                 {
                     rope02.SetActive(true);
+                    linked02 = true;
                 }
-                if (PlayerIndentify.link1_2 && (playerNum == 1 || playerNum == 2))
+                else if (PlayerIndentify.link1_2 && (playerNum == 1 || playerNum == 2))
                 {
                     rope12.SetActive(true);
+                    linked12 = true;
+                }
+                else
+                {
+                    return;
                 }
                 ropeCreated = true;
                 creatButtonPress = true;

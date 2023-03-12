@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerIndentify : MonoBehaviour
 {
@@ -42,8 +43,11 @@ public class PlayerIndentify : MonoBehaviour
     public GameObject[] interactor;
 
     //计分功能
-    public GameObject[] scoreNumText0;
-    public static int[] scoreNum;
+    public Text[] scoreNumText;
+    public static int scoreNum0;
+    public static int scoreNum1;
+    public static int scoreNum2;
+    public static int scoreNum3;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +55,10 @@ public class PlayerIndentify : MonoBehaviour
         isStartGame=false;
         staticTotalNum = totalNum;
         pNum = 0;
+        scoreNum0 = 0;
+        scoreNum1 = 0;
+        scoreNum2 = 0;
+        scoreNum3 = 0;
     }
 
     // Update is called once per frame
@@ -63,6 +71,7 @@ public class PlayerIndentify : MonoBehaviour
             SetRopes();
         }
         SetGrassInteracyor();
+        ScoreCaculate();
         Debug.Log(link0_1);
     }
 
@@ -278,6 +287,16 @@ public class PlayerIndentify : MonoBehaviour
         {
             interactor[0].transform.position = model0.position;
             interactor[1].transform.position = model1.position;
+        }
+    }
+
+    void ScoreCaculate()
+    {
+        if (isStartGame)
+        {
+            scoreNumText[0].text = scoreNum0.ToString();
+            scoreNumText[1].text = scoreNum1.ToString();
+            scoreNumText[2].text = scoreNum2.ToString();
         }
     }
 

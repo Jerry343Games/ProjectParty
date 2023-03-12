@@ -14,7 +14,6 @@ Material:
   - _RIMSPLITCOLOR_NOSPLIT
   - _USEADDITIONALLIGHTSDIFFUSE_ON
   - _USELIGHTRAMP_STEP
-  - _USEOUTLINE_ON
   - _USESPECULAR_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -86,7 +85,7 @@ Material:
     - _UseEmission: 0
     - _UseEnvironmentRefletion: 0
     - _UseLightRamp: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
     - _UseRimLight: 0
     - _UseSpecular: 1
     m_Colors:
