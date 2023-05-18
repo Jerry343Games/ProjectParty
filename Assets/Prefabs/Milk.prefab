@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 936488167773959823}
   - component: {fileID: 936488167773959821}
   - component: {fileID: 936488167773959820}
-  m_Layer: 0
+  - component: {fileID: 4699845789706818337}
+  m_Layer: 7
   m_Name: Milk
-  m_TagString: Untagged
+  m_TagString: Milk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +61,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92512fd3f1bb2164984a66b03cdfb192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectEffect: {fileID: 0}
+  collectEffect: {fileID: 1424048932666924602, guid: ea79148c596fc10418e17c6932da516a,
+    type: 3}
+  disableEffect: {fileID: 3713768886853284603, guid: f9b80c357af237c4c97332797647d5b6,
+    type: 3}
+  existTime: 30
 --- !u!65 &936488167773959820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74,6 +79,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0733259, y: 2.9805388, z: 2.2214756}
   m_Center: {x: -0.15549529, y: 0.0029335022, z: -0.025241727}
+--- !u!114 &4699845789706818337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936488167773959825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a1721c32368f543ba63bf390e8e97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCanMove: 0
+  speed: 30
 --- !u!1001 &936488167481431314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -170,6 +189,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: milkcan_uv
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31c120787425e0540ab5c97a31b29a29,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31c120787425e0540ab5c97a31b29a29, type: 3}

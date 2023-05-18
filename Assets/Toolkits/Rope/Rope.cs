@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -20,6 +20,7 @@ namespace RopeToolkit
         protected const int MaxCollisionPlanesPerParticle = 3;
         protected const int InitialParticleTargets = 3;
         protected const int MaxRigidbodyConnections = 24;
+        public bool code;
 
         public struct Measurements
         {
@@ -1326,6 +1327,7 @@ namespace RopeToolkit
             PrepareRigidbodyConnections();
 
             ScheduleNextSimulationFrame();
+
         }
 
         public void LateUpdate()
@@ -1345,6 +1347,7 @@ namespace RopeToolkit
             CompletePreviousSimulationFrame();
 
             SubmitToRenderer();
+
         }
 
 #if UNITY_EDITOR

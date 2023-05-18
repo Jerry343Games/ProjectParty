@@ -91,7 +91,7 @@ Material:
     - _UseSpecular: 1
     m_Colors:
     - _Color: {r: 0.9215687, g: 0.95294124, b: 0.7803922, a: 1}
-    - _EmissionColor: {r: 14.550879, g: 18.164822, b: 1.8069718, a: 1}
+    - _EmissionColor: {r: 18.164822, g: 9.699972, b: 1.902075, a: 1}
     - _OutlineColor: {r: 0.0762509, g: 0.032360278, b: 0.084905684, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimShadowColor: {r: 0, g: 0.055514283, b: 0.9622641, a: 0}

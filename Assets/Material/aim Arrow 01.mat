@@ -42,7 +42,7 @@ Material:
     - _Rotation: -3.17
     m_Colors:
     - _Center: {r: 0.5, g: 0.57, b: 0, a: 0}
-    - _Color: {r: 0.5162469, g: 4.287094, b: 3.3476045, a: 0}
+    - _Color: {r: 2.8002503, g: 0.15449657, b: 0.09656035, a: 0}
     - _Offset: {r: -0.06, g: -0.44, b: 0, a: 0}
     - _Tiling: {r: 1.14, g: 1.29, b: 0, a: 0}
   m_BuildTextureStacks: []

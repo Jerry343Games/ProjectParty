@@ -226,6 +226,7 @@ namespace RopeToolkit
             {
                 EnforceConnection();
             }
+            //FindRigdbody();
         }
 
         public void FixedUpdate()
@@ -265,6 +266,23 @@ namespace RopeToolkit
                 Gizmos.DrawLine(ropePoint, objPoint);
             }
         }
+        void FindRigdbody()
+        {
+            if (PlayerIndentify.isStartGame)
+            {
+                rigidbodySettings.body = FindObject2(playerName, "Model 00").GetComponent<Rigidbody>();
+                Debug.Log("rigid set");
+            }
+        }
+
+        private static GameObject FindObject2(string parentName, string childName)
+        {
+            GameObject parentObj = GameObject.Find(parentName);
+            GameObject bbb = parentObj.transform.Find(childName).gameObject;
+            return bbb;
+        }
 #endif
     }
+
+    
 }

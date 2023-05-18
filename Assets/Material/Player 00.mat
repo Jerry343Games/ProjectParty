@@ -90,11 +90,11 @@ Material:
     - _UseRimLight: 0
     - _UseSpecular: 1
     m_Colors:
-    - _Color: {r: 0.77852607, g: 1, b: 0.56037736, a: 1}
+    - _Color: {r: 0.76628417, g: 1, b: 0.56981134, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0.09933028, g: 0.13207549, b: 0.087718055, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimShadowColor: {r: 0, g: 0.055514283, b: 0.9622641, a: 0}
-    - _ShadowColor: {r: 0.40158176, g: 0.46226418, b: 0.32009614, a: 0}
+    - _ShadowColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

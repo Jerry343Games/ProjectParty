@@ -14,7 +14,6 @@ Material:
   - _RIMSPLITCOLOR_NOSPLIT
   - _USEADDITIONALLIGHTSDIFFUSE_ON
   - _USELIGHTRAMP_STEP
-  - _USEOUTLINE_ON
   - _USESPECULAR_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -79,14 +78,14 @@ Material:
     - _SpecularFaloff: 0
     - _SpecularPosterizeSteps: 15
     - _SpecularShadowMask: 0
-    - _StepOffset: 0
+    - _StepOffset: -0.1
     - _Strength: 0
     - _Thicnkess: 0.02
     - _UseAdditionalLightsDiffuse: 1
     - _UseEmission: 1
     - _UseEnvironmentRefletion: 0
     - _UseLightRamp: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
     - _UseRimLight: 0
     - _UseSpecular: 1
     m_Colors:

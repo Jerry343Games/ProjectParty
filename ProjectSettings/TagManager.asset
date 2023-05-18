@@ -7,6 +7,14 @@ TagManager:
   - Rope 0-1
   - Rope 0-2
   - Rope 1-2
+  - Magnetic
+  - Milk
+  - MilkBox
+  - Obstacle
+  - Ground
+  - Boom
+  - GrassBall
+  - Gun
   layers:
   - Default
   - TransparentFX
@@ -15,7 +23,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Milk
   - 
   - 
   - 

@@ -19,13 +19,19 @@ public class PlayerMovement : MonoBehaviour
     public GameObject aimingArrow;
     public LayerMask groundMask;
     public GameObject bulletPrefab;
+    public GameObject bulletPrefabFire;
+    bool ableAim;
+    public bool ableMove;
+    
     Vector2 rotate;
     Vector2 mousePosition;
     private float aimKeyValue=0f;
     bool hasHold=false;
+    private float percent;
 
     [Header("CreatRope")]
-    private float ropeKeyValue = 0f;
+    public float ropeKeyValue = 0f;
+    //public static float releaseKeyValue=0f;
     public GameObject circle;
     //测试正方体
     //public GameObject testCube;
@@ -35,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public Material[] modelMat;
     public Material[] arrowMat;
     public Material[] circleMat;
+    public GameObject ColdCirleMat;
     public Transform[] resetPoints;
     int playerNum;
 
@@ -49,20 +56,34 @@ public class PlayerMovement : MonoBehaviour
     public static bool linked02;
     public static bool linked12;
 
+    private float coldTime;
+    Rigidbody rb;
+    public Animator playerAni;
 
-
-
+    private GameObject cb;
+    public GameObject cb1;
+    public GameObject cb2;
+    public GameObject cb3;
+    public GameObject cb4;
+    bool rotateMode;
+    Vector3 cbDir;
 
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         hasFind = false;
         ropeCreated = false;
         creatButtonPress = false;
+        ableAim = true;
+        ableMove = true;
+        rotateMode = false;
     }
 
     private void Awake()
     {
+        rb = playerModel.GetComponent<Rigidbody>();
+        //再在每关写一个探测玩家并传送的脚本
         playerInput = GetComponent<PlayerInput>();
         playerNum = playerInput.playerIndex;
         if (playerNum == 0)
@@ -71,7 +92,13 @@ public class PlayerMovement : MonoBehaviour
             playerModel.GetComponent<MeshRenderer>().material=modelMat[0];
             aimingArrow.GetComponent<MeshRenderer>().material = arrowMat[0];
             circle.GetComponent<MeshRenderer>().material = circleMat[0];
+            cb1.SetActive(true);
+            cb = cb1;
+            cb2.SetActive(false);
+            cb3.SetActive(false);
+            cb4.SetActive(false);
             transform.position = resetPoints[0].position;
+            playerAni = cb1.GetComponent<Animator>();
         }
         if (playerNum == 1)
         {
@@ -79,7 +106,13 @@ public class PlayerMovement : MonoBehaviour
             playerModel.GetComponent<MeshRenderer>().material = modelMat[1];
             aimingArrow.GetComponent<MeshRenderer>().material = arrowMat[1];
             circle.GetComponent<MeshRenderer>().material = circleMat[1];
+            cb1.SetActive(false);
+            cb2.SetActive(true);
+            cb = cb2;
+            cb3.SetActive(false);
+            cb4.SetActive(false);
             transform.position = resetPoints[1].position;
+            playerAni = cb2.GetComponent<Animator>();
         }
         if (playerNum == 2)
         {
@@ -87,7 +120,13 @@ public class PlayerMovement : MonoBehaviour
             playerModel.GetComponent<MeshRenderer>().material = modelMat[2];
             aimingArrow.GetComponent<MeshRenderer>().material = arrowMat[2];
             circle.GetComponent<MeshRenderer>().material = circleMat[2];
+            cb1.SetActive(false);
+            cb2.SetActive(false);
+            cb3.SetActive(true);
+            cb = cb3;
+            cb4.SetActive(false);
             transform.position = resetPoints[2].position;
+            playerAni = cb3.GetComponent<Animator>();
         }
         if (playerNum == 3)
         {
@@ -95,21 +134,45 @@ public class PlayerMovement : MonoBehaviour
             playerModel.GetComponent<MeshRenderer>().material = modelMat[3];
             aimingArrow.GetComponent<MeshRenderer>().material = arrowMat[3];
             circle.GetComponent<MeshRenderer>().material = circleMat[3];
+            cb1.SetActive(false);
+            cb2.SetActive(false);
+            cb3.SetActive(false);
+            cb4.SetActive(true);
+            cb = cb4;
             transform.position = resetPoints[3].position;
+            playerAni = cb4.GetComponent<Animator>();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        FindRope();
+        //FindRope();
+
         if (PlayerIndentify.isStartGame)
         {
-            PlayerMove();
+            if (ableMove&& playerModel.GetComponent<GraspMilkBox>().ableMove)
+            {
+                PlayerMove();
+            }
             Aiming();
-            LinkRope();
+            //LinkRope();
         }
-        
+        ColdCircle(coldTime);
+
+        if (playerModel.GetComponent<GraspMilkBox>().isGrasping)
+        {
+            playerAni.SetBool("hold", true);
+        }
+        else {
+            playerAni.SetBool("hold", false);
+        }
+
+        if (rotateMode)
+        {
+            cb.transform.LookAt(cbDir, Vector3.up);
+        }
+
     }
 
 
@@ -134,39 +197,156 @@ public class PlayerMovement : MonoBehaviour
     {
         //getShoulderDown = value.ReadValue<bool>();
         aimKeyValue = value.ReadValue<float>();
-        
+        //Debug.Log("Mouse");
     }
     //监测链接键输入
     public void OnCreatRope(InputAction.CallbackContext value)
     {
         ropeKeyValue = value.ReadValue<float>();
-        //Debug.Log("!!!!!!!!!!!!!!!!!!!!!");
+        //releaseKeyValue = ropeKeyValue;
+        //Debug.Log("!!!!!!!!!!!!!!!!!!!!!"+ropeKeyValue);
     }
 
 
     //双设备移动
     private void PlayerMove()
     {
-        transform.Translate(new Vector3(movent.x, 0f, movent.y) * Time.deltaTime * moveSpeed);
-        playerModel.transform.LookAt(new Vector3(playerModel.transform.position.x + movent.x, playerModel.transform.position.y, playerModel.transform.position.z + movent.y), Vector3.up);
+        rb.MovePosition( new Vector3(rb.position.x+movent.x * Time.deltaTime * moveSpeed, rb.position.y, rb.position.z+ movent.y * Time.deltaTime * moveSpeed));
+        if (movent != Vector2.zero)
+        {
+            playerAni.SetBool("run", true);
+        }
+        if (movent == Vector2.zero)
+        {
+            playerAni.SetBool("run", false);
+        }
+        //transform.Translate(new Vector3(movent.x, 0f, movent.y) * Time.deltaTime * moveSpeed);
+        if (!rotateMode)
+        {
+            playerModel.transform.LookAt(new Vector3(playerModel.transform.position.x + movent.x, playerModel.transform.position.y, playerModel.transform.position.z + movent.y), Vector3.up);
+            cb.transform.LookAt(new Vector3(cb.transform.position.x + movent.x, cb.transform.position.y, cb.transform.position.z + movent.y), Vector3.up);
+        }
+        if (rotateMode)
+        {
+            
+        }
     }
 
     //手柄瞄准
     private void Aiming()
     {
-        if (aimKeyValue == 1f)
+        if (ableAim&&!playerModel.GetComponent<GraspMilkBox>().isGrasping)
         {
-            aimingArrow.SetActive(true);
-            MouseAming();
-            aimingArrow.transform.LookAt(new Vector3(aimingArrow.transform.position.x + rotate.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z + rotate.y), Vector3.up);
-            hasHold = true;        
+            //Debug.Log(aimKeyValue);
+            if (aimKeyValue == 1f)
+            {
+                aimingArrow.SetActive(true);
+                MouseAming();
+                aimingArrow.transform.LookAt(new Vector3(aimingArrow.transform.position.x + rotate.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z + rotate.y), Vector3.up);
+                cbDir = new Vector3(cb.transform.position.x + rotate.x, cb.transform.position.y, cb.transform.position.z + rotate.y);
+                hasHold = true;
+                coldTime = 1;
+            }
+            if (aimKeyValue == 0f && hasHold)
+            {
+                hasHold = false;
+                Debug.Log("Fire");
+                if (!playerModel.GetComponent<GraspMilkBox>().isGraspGun)
+                {
+                    Instantiate(bulletPrefab, new Vector3(aimingArrow.transform.position.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z), aimingArrow.transform.rotation);
+                    aimingArrow.SetActive(false);
+                    ableAim = false;
+                    ableMove = false;
+                    coldTime = 1f;
+                    rb.velocity = Vector3.zero;
+                    rotateMode = true;
+                    StartCoroutine(WaitFireColdTime(1f));
+                    StartCoroutine(WaitFireMoveTime());
+                    
+                }
+                if (playerModel.GetComponent<GraspMilkBox>().isGraspGun)
+                {
+                    SoundsManager.PlayThrowAudio();
+                    Instantiate(bulletPrefabFire, new Vector3(aimingArrow.transform.position.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z), aimingArrow.transform.rotation);                   
+                    aimingArrow.SetActive(false);
+                    ableAim = false;
+                    coldTime = 2f;
+                    StartCoroutine(WaitFireColdTime(2f));
+                }
+            }
         }
-        if(aimKeyValue==0f&&hasHold)
+
+        if (playerModel.GetComponent<GraspMilkBox>().isGraspGun)
         {
-            hasHold = false;
-            Debug.Log("Fire");
-            Instantiate(bulletPrefab, aimingArrow.transform.position, aimingArrow.transform.rotation);
-            aimingArrow.SetActive(false);
+            //Debug.Log(aimKeyValue);
+            if (aimKeyValue == 1f)
+            {
+                aimingArrow.SetActive(true);
+                MouseAming();
+                aimingArrow.transform.LookAt(new Vector3(aimingArrow.transform.position.x + rotate.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z + rotate.y), Vector3.up);
+                cbDir = new Vector3(cb.transform.position.x + rotate.x, cb.transform.position.y, cb.transform.position.z + rotate.y);
+                hasHold = true;
+                coldTime = 1;
+            }
+            if (aimKeyValue == 0f && hasHold)
+            {
+                hasHold = false;
+                Debug.Log("Fire");
+                if (!playerModel.GetComponent<GraspMilkBox>().isGraspGun)
+                {
+                    Instantiate(bulletPrefab, new Vector3(aimingArrow.transform.position.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z), aimingArrow.transform.rotation);
+                    
+                    aimingArrow.SetActive(false);
+                    ableAim = false;
+                    ableMove = false;
+                    coldTime = 1f;
+                    rb.velocity = Vector3.zero;
+                    rotateMode = true;
+                    StartCoroutine(WaitFireColdTime(1f));
+                    StartCoroutine(WaitFireMoveTime());
+
+                }
+                if (playerModel.GetComponent<GraspMilkBox>().isGraspGun)
+                {
+                    SoundsManager.PlayFireAudio();
+                    MilkBoxSettings.bulletRemain--;
+                    Debug.Log("Remain:" + MilkBoxSettings.bulletRemain);
+                    Instantiate(bulletPrefabFire, new Vector3(aimingArrow.transform.position.x, aimingArrow.transform.position.y, aimingArrow.transform.position.z), aimingArrow.transform.rotation);
+                    aimingArrow.SetActive(false);
+                    ableAim = false;
+                    coldTime = 2f;
+                    StartCoroutine(WaitFireColdTime(2f));
+                }
+            }
+        }
+    }
+
+    IEnumerator WaitFireColdTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ableAim = true;
+    }
+    IEnumerator WaitFireMoveTime()
+    {
+        yield return new WaitForSeconds(0.4f);
+        cb.transform.rotation = Quaternion.Euler(0, 0, 0);
+        ableMove = true;
+        rotateMode = false;
+    }
+
+    //冷却圆环控制
+    private void ColdCircle(float t)
+    {
+        if (!ableAim) {
+            percent = ColdCirleMat.GetComponent<Renderer>().material.GetFloat("_Percent");
+            percent += Time.deltaTime * (1 / t);
+            ColdCirleMat.GetComponent<Renderer>().material.SetFloat("_Percent", percent);
+            //Debug.Log(percent);
+        }
+        if (ableAim)
+        {
+            percent = 0;
+            ColdCirleMat.GetComponent<Renderer>().material.SetFloat("_Percent", percent);
         }
     }
 
@@ -287,18 +467,24 @@ public class PlayerMovement : MonoBehaviour
             // You might want to delete this line.
             // Ignore the height difference.
             direction.y = 0;
-
+            //Debug.Log(direction);
             // Make the transform look in the direction.
             aimingArrow.transform.forward = direction;
         }
+        else
+        {
+            Debug.LogWarning("Get Mouse Position False");
+        }
     }
-
+    
     //鼠标瞄准射线转换
     public (bool success, Vector3 position) GetMousePosition()
     {
         var ray = Camera.main.ScreenPointToRay(mousePosition);
+       // Debug.Log(Camera.main.transform.position);
 
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
+
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, 1<< LayerMask.NameToLayer("Ground")))
         {
             // The Raycast hit something, return with the position.
             return (success: true, position: hitInfo.point);
@@ -306,7 +492,9 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // The Raycast did not hit anything.
+            Debug.LogWarning("Raycast Empty");
             return (success: false, position: Vector3.zero);
+            
         }
     }
     private static GameObject FindObject2(string parentName,string childName)
@@ -314,6 +502,22 @@ public class PlayerMovement : MonoBehaviour
         GameObject parentObj = GameObject.Find(parentName);
         GameObject bbb = parentObj.transform.Find(childName).gameObject;
         return bbb;
+    }
+
+
+    public void PlayerDizziness(float dizTime)
+    {
+        ableAim = false;
+        ableMove = false;
+        coldTime = dizTime;
+        StartCoroutine(WaitToDisableDiz(dizTime));
+    }
+
+    IEnumerator WaitToDisableDiz(float dizTime)
+    {
+        yield return new WaitForSeconds(dizTime);
+        ableMove = true;
+        ableAim = true;
     }
 
 }
